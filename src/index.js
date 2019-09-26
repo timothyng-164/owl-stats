@@ -275,13 +275,3 @@ function hexToRgb(hex, alpha) {
       return 'rgb(' + r + ', ' + g + ', ' + b + ')';
    }
 }
-
-// TODO
-// style playercard: border
-// style addPlayer
-// have columns align - stat headers, player card, add player
-// style entire page
-
-// addPlayer with responsive text search
-// responsive page (stretches)
-// add stats by map

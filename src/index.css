@@ -1,13 +1,125 @@
+/* place footer on bottom */
+
 body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+main {
+  flex: 1;
+}
+
+/*  ============================  */
+
+* { font-family: Blizzard,Helvetica,Arial,sans-serif; }
+body { background-image: url('owl_banner.jpg'); }
+
+main {
+  padding: 1%;
+  text-align: center;
+}
+
+.column {
+  display: inline-grid;
+  grid-template-columns: 400px;
+}
+
+table {
+  width: 400px;
+}
+th, td {
+  height: 40px;
+  font-size: 24px;
+}
+
+.main-container { margin-top: 15px; }
+.stats-container { margin-top: 20px; }
+.main-button {
+  padding: 8px 16px;
+  display: inline-block;
+  font-size: 20px;
+  margin: 4px 2px;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+  cursor: pointer;
+  background-color: #1a1a1a;
+  color: white;
+}
+
+.main-button:hover {
+  color: #f89e14;
+}
+
+/*  ========= Table Styles =============  */
+
+table, th, td {
+  border-collapse: collapse;
+  border-top: 1px solid #e8e8e8;
+  border-bottom: 1px solid #e8e8e8;
+}
+th {
+  color: #fdfdfd;
+  background-color: #f89e14;
+}
+tr:nth-child(even) {background-color: #f2f2f2;}
+tbody {
+  background-color: white;
+}
+
+
+/*  ========= Player Avatar Styles =============  */
+
+.player-card {
+  border: 1px #e8e8e8 solid;
+}
+
+.player-avatar {
+  display: grid;
+  grid-template-columns: repeat(8, 50px);
+  grid-template-rows: repeat(7, 50px);
+
+}
+
+.player-number {
+  font-size: 40px;
+  vertical-align: 10px;
+}
+
+.player-team, .player-role, .player-number, .close {
+  grid-column: 8;
+}
+.player-number { grid-row: 5; }
+.player-team { grid-row: 6; }
+.player-role { grid-row: 7; }
+.close {
+  grid-row: 1;
+  font-size: 40px;
+}
+
+.icon {
+  border: 1px #e8e8e8 solid;
+}
+
+/*  ========= Add Player Form Styles =============  */
+
+.add-player-forms {
+  border: 1px solid #e8e8e8;
+  padding: 20px 0;
+  background-color: #d9d9d9;
+}
+.team-filter { margin-right: 10px; }
+.player-select {
+  margin: 10px 0;
+  width: 200px;
+}
+.add-player-forms button {
+  padding: 5px 10px;
+  display: inline-block;
+  font-size: 16px;
+  margin: 0 5px;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+  cursor: pointer;
 }

@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import Scatter from './scatter';
+
 
 class PlayerCard extends React.Component {
   render() {
@@ -14,7 +16,6 @@ class PlayerCard extends React.Component {
       let teamColorPrimary;
       if (team) {
         teamLogo = <img className="player-team icon"src={team.teamLogo} alt={`${team.name} Logo`} height="50" width="48"></img>
-        console.log(team);
         teamColorPrimary = hexToRgb(team.teamColors.primary.color, 0.5);
       }
       var playerInfo = (
@@ -139,7 +140,9 @@ class Main extends React.Component {
       playerData: {},
       teamData: {},
       shownPlayers: [],
-      addPlayer: true
+      addPlayer: true,
+      scatterX: 'eliminations_avg_per_10m',
+      scatterY: 'deaths_avg_per_10m'
     }
   }
 
@@ -205,45 +208,63 @@ class Main extends React.Component {
   render() {
     return (
       <div className="main-container">
-        <h1>Overwatch League Player Stats</h1>
-        <button className="add-button main-button" onClick={() => this.setState({addPlayer: true})}>Add Player</button>
-        <button className="clear-button main-button" onClick={this.clearPlayers}>Clear</button>
-        <div className="stats-container">
-          <div className="column stat-labels">
-            <div></div>
-            <table>
-              <thead>
-                <tr><th>Stats Per 10 Min</th></tr>
-              </thead>
-              <tbody>
-                <tr><td>Avgerage Eliminations</td></tr>
-                <tr><td>Avgerage Deaths</td></tr>
-                <tr><td>Hero Damage</td></tr>
-                <tr><td>Healing</td></tr>
-                <tr><td>Average Ultimates Earned</td></tr>
-                <tr><td>Final Blows</td></tr>
-                <tr><td>Total Time Played</td></tr>
-              </tbody>
-            </table>
+        <div id="compare-container">
+          <h1>Overwatch League Player Stats Selector</h1>
+          <button className="add-button main-button" onClick={() => this.setState({addPlayer: true})}>Add Player</button>
+          <button className="clear-button main-button" onClick={this.clearPlayers}>Clear</button>
+          <div className="stats-container">
+            <div className="column stat-labels">
+              <div></div>
+              <table>
+                <thead>
+                  <tr><th>Stats Per 10 Min</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Avgerage Eliminations</td></tr>
+                  <tr><td>Avgerage Deaths</td></tr>
+                  <tr><td>Hero Damage</td></tr>
+                  <tr><td>Healing</td></tr>
+                  <tr><td>Average Ultimates Earned</td></tr>
+                  <tr><td>Final Blows</td></tr>
+                  <tr><td>Total Time Played</td></tr>
+                </tbody>
+              </table>
+            </div>
+            {this.state.shownPlayers.map((pId) =>
+              <PlayerCard
+                key={pId}
+                player={this.state.playerData[pId]}
+                teamData={this.state.teamData}
+                removePlayer={this.removePlayer}
+                shownPlayers={this.state.shownPlayers}
+              />
+            )}
+            {this.state.addPlayer
+              ? <AddPlayer
+                  playerData={this.state.playerData}
+                  teamData={this.state.teamData}
+                  addPlayer={this.addPlayer}
+                  exitAddPlayer={this.exitAddPlayer}
+                />
+              : null
+            }
           </div>
-          {this.state.shownPlayers.map((pId) =>
-            <PlayerCard
-              key={pId}
-              player={this.state.playerData[pId]}
-              teamData={this.state.teamData}
-              removePlayer={this.removePlayer}
-              shownPlayers={this.state.shownPlayers}
-            />
-          )}
-          {this.state.addPlayer ?
-            <AddPlayer
+        </div>
+        <hr></hr>
+        <div id="scatter-container">
+          <div class="scatter-items">
+            <Scatter
               playerData={this.state.playerData}
               teamData={this.state.teamData}
-              addPlayer={this.addPlayer}
-              exitAddPlayer={this.exitAddPlayer}
+              id={'owl-scatter'}
+              title={'Overwatch League Player Stats'}
+              xValue={'eliminations_avg_per_10m'}
+              yValue={'deaths_avg_per_10m'}
+              xTitle={'Avg Eliminations per 10m'}
+              yTitle={'Avg Deaths per 10m'}
             />
-            : null
-          }
+            <svg id="scatter"></svg>
+          </div>
         </div>
       </div>
     );

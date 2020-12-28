@@ -151,12 +151,20 @@ class Main extends React.Component {
       fetch('https://api.overwatchleague.com/v2/teams/').then(value => value.json()),
       fetch('https://api.overwatchleague.com/stats/players').then(value => value.json())
     ]).then( ([teamData, playerStats]) => {
-      // get player stats
+      console.log('tean', teamData)
+      initData(teamData, playerStats, this)
+    }).catch(error => {
+      var teamData = require('./backup-data/owl-teams.json')    
+      var playerStats = require('./backup-data/owl-player-stats.json')
+      initData(teamData, playerStats, this)
+    })
+
+    function initData(teamData, playerStats, instance) {
       let tempPlayerData = {};
       for (let player of playerStats.data) {
         tempPlayerData[player.playerId] = player;
       }
-      this.setState({playerData: tempPlayerData});
+      instance.setState({playerData: tempPlayerData});
 
       // get team and player data
       let tempTeamData = {};
@@ -166,7 +174,7 @@ class Main extends React.Component {
           teamLogo: team.logo.main.svg,
           teamColors: team.colors
         }
-        let tempPlayerData = this.state.playerData;
+        let tempPlayerData = instance.state.playerData;
         for (let player of team.players) {
           if (tempPlayerData[player.id]) {
             tempPlayerData[player.id].number = player.number;
@@ -175,11 +183,10 @@ class Main extends React.Component {
           }
           // else { console.log(player.name, player.id, 'has no stats'); }
         }
-        this.setState({playerData: tempPlayerData});
+        instance.setState({playerData: tempPlayerData});
       }
-      this.setState({ teamData: tempTeamData});
-    });
-    // this.setState({shownPlayers: [5197]});
+      instance.setState({ teamData: tempTeamData});
+    }
   }
 
   removePlayer = (pId, shownPlayers) => {
